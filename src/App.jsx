@@ -28,7 +28,7 @@ function getPreparedGoods(goods, { sortField, reverseField }) {
         case SORT_FIELD_NAME:
           return good1.localeCompare(good2);
         case SORT_FIELD_LENGTH:
-          return good1[sortField] - good2[sortField];
+          return good1.length - good2.length;
         default:
           return 0;
       }
@@ -55,14 +55,18 @@ export const App = () => {
     setReverseField(false);
   };
 
-  const isInitialOrder =
-    JSON.stringify(visibleGoods) === JSON.stringify(goodsFromServer);
+  const handleSort = field => setSortField(field);
+  const handleReverse = () => setReverseField(state => !state);
+
+  const isInitialOrder = visibleGoods.every(
+    (good, index) => good === goodsFromServer[index],
+  );
 
   return (
     <div className="section content">
       <div className="buttons">
         <button
-          onClick={() => setSortField(SORT_FIELD_NAME)}
+          onClick={() => handleSort(SORT_FIELD_NAME)}
           type="button"
           className={cn('button', 'is-info', {
             'is-light': sortField !== SORT_FIELD_NAME,
@@ -72,7 +76,7 @@ export const App = () => {
         </button>
 
         <button
-          onClick={() => setSortField(SORT_FIELD_LENGTH)}
+          onClick={() => handleSort(SORT_FIELD_LENGTH)}
           type="button"
           className={cn('button', 'is-success', {
             'is-light': sortField !== SORT_FIELD_LENGTH,
@@ -82,7 +86,7 @@ export const App = () => {
         </button>
 
         <button
-          onClick={() => setReverseField(state => !state)}
+          onClick={handleReverse}
           type="button"
           className={cn('button', 'is-warning', {
             'is-light': !reverseField,
@@ -93,7 +97,7 @@ export const App = () => {
 
         {!isInitialOrder && (
           <button
-            onClick={() => resetGoods()}
+            onClick={resetGoods}
             type="button"
             className="button is-danger is-light"
           >
