@@ -20,10 +20,10 @@ const SORT_FIELD_NAME = 'name';
 const SORT_FIELD_LENGTH = 'length';
 
 function getPreparedGoods(goods, { sortField, reverseField }) {
-  const prepearedGoods = [...goods];
+  const preparedGoods = [...goods];
 
   if (sortField) {
-    prepearedGoods.sort((good1, good2) => {
+    preparedGoods.sort((good1, good2) => {
       switch (sortField) {
         case SORT_FIELD_NAME:
           return good1.localeCompare(good2);
@@ -36,10 +36,10 @@ function getPreparedGoods(goods, { sortField, reverseField }) {
   }
 
   if (reverseField) {
-    prepearedGoods.reverse();
+    preparedGoods.reverse();
   }
 
-  return prepearedGoods;
+  return preparedGoods;
 }
 
 export const App = () => {
